@@ -1,6 +1,7 @@
 package pacman.AI.DataExtraction;
 
 import dataRecording.DataTuple;
+import pacman.game.Constants.MOVE;
 
 public class DataConverter {
 
@@ -89,5 +90,32 @@ public class DataConverter {
                 break;
         }
         return rString;
+    }
+    
+    /**
+     * Converts a String to a MOVE
+     * @param s
+     * @return
+     */
+    public static MOVE convertStringToMOVE(String s){
+    	MOVE move = null;
+    	switch(s){
+    		case("UP"):
+    			move = MOVE.UP;
+    			break;
+    		case("DOWN"):
+    			move = MOVE.DOWN;
+    			break;
+    		case("LEFT"):
+    			move = MOVE.LEFT;
+    			break;
+    		case("RIGHT"):
+    			move = MOVE.RIGHT;
+    			break;
+    		case("NEUTRAL"):
+    			move = MOVE.NEUTRAL;
+    			break;
+    	}
+		return move;
     }
 }

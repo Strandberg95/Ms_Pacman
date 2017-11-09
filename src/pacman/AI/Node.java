@@ -15,10 +15,6 @@ public class Node {
 	private Hashtable<String, Node>  attValues = new Hashtable<String, Node>();
 	private MOVE move;
 	
-	public Node(String attName){
-		this.attName = attName;
-	}
-	
 	public String getAttName(){
 		return attName;
 	}
@@ -30,6 +26,10 @@ public class Node {
 	 */
 	public void addNode(String value, Node node){
 		attValues.put(value, node);
+	}
+	
+	public void setName(String name){
+		attName = name;
 	}
 	
 	/**
