@@ -1,6 +1,6 @@
 DirectionChosen *
 mazeIndex
-currentLevel
+currentLevel *
 pacmanPosition
 pacmanLivesLeft
 currentScore
