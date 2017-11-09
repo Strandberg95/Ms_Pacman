@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0bda13a3-92fe-4cf6-92ec-c2646c297b45" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/pacman/AI/DataExtraction/DataExtractionReader.java" afterPath="$PROJECT_DIR$/src/pacman/AI/DataExtraction/DataNameExtractor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pacman/AI/AIBuilder.java" afterPath="$PROJECT_DIR$/src/pacman/AI/AIBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/pacman/AI/AIController.java" afterPath="$PROJECT_DIR$/src/pacman/AI/AIController.java" />
-    </list>
+    <list default="true" id="0bda13a3-92fe-4cf6-92ec-c2646c297b45" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -87,11 +81,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="DataConverter.java" pinned="false" current-in-tab="true">
+          <file leaf-file-name="DataConverter.java" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/pacman/AI/DataExtraction/DataConverter.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="345">
                   <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ID3AttributeSelection.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/pacman/AI/ID3AttributeSelection.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="60">
+                  <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -437,14 +441,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pacman/game/internal/Maze.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="55" column="60" lean-forward="false" selection-start-line="55" selection-start-column="60" selection-end-line="55" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/mazes/a.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -848,6 +844,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="20" lean-forward="false" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pacman/AI/ID3AttributeSelection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
