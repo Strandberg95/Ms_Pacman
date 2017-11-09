@@ -40,4 +40,12 @@ public class Node {
 		this.move = move;
 	}
 	
+	/**
+	 * Returns the links to the child nodes.
+	 * @return
+	 */
+	public Hashtable<String, Node> getLinks(){
+		return attValues;
+	}
+	
 }
