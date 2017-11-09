@@ -2,7 +2,7 @@ package pacman.AI.DataExtraction;
 
 import pacman.game.util.IO;
 
-public class DataExtractionReader {
+public class DataNameExtractor {
 
     private static String FileName = "data.txt";
     private static String selectionSign = " *";
