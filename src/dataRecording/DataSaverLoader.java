@@ -9,8 +9,10 @@ import pacman.game.util.*;
  *
  */
 public class DataSaverLoader {
-	
+
+	//TODO - Christoffer: Might be good to be able to use other text files than trainingData.txt
 	private static String FileName = "trainingData.txt";
+
 	
 	public static void SavePacManData(DataTuple data)
 	{
