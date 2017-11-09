@@ -11,6 +11,8 @@ import java.util.EnumMap;
 import java.util.Random;
 
 import dataRecording.DataCollectorController;
+import pacman.AI.AIBuilder;
+import pacman.AI.AIController;
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
@@ -78,6 +80,11 @@ public class Executor
 		//run game for data collection
 		//exec.runGameTimed(new DataCollectorController(new KeyBoardInput()),new StarterGhosts(),visual);
 		exec.runGameTimed(new DataCollectorController(new KeyBoardInput()),new StarterGhosts(),visual);
+		
+		// run game with professional developers super AI-controller
+		AIController proAIController = new AIController();
+		
+		exec.runGameTimed(proAIController, new StarterGhosts(), visual);
 	}
 	
     /**
