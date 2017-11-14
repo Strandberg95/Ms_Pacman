@@ -1,6 +1,10 @@
 package pacman.AI;
 
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.Set;
 
 import dataRecording.DataSaverLoader;
 import dataRecording.DataTuple;
@@ -35,11 +39,93 @@ public class AIBuilder {
 			node.setName(direction);
 			node.setMove(DataConverter.convertStringToMOVE(direction));
 			
-		}else{
+		}else{  // Label N as A and remove A from the attribute list
+			String attribute = ID3AttributeSelection.getNextAttribute(dataSet, attributeList);
+			node.setName(attribute);
+			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
+			// For each value aj in attribute A..
+			String[] valuesInAttribute = allValuesInAttribute(attribute, dataSet);
+			for(int a = 0; a < valuesInAttribute.length; a++){
+				String valueAj = valuesInAttribute[a];
+				DataTuple[] subSetDj = createSubSet(dataSet, attribute, valueAj);
+			}
 		}
 		
 		
+		
+		return null;
+	}
+
+	/**
+	 * Creates a subset of D so that attribute A takes the value aj, creating the subset dj
+	 * @param dataSet
+	 * @param attribute
+	 * @param valueAj
+	 * @return
+	 */
+	private DataTuple[] createSubSet(DataTuple[] dataSet, String attribute, String valueAj) {
+		LinkedList<DataTuple> tuplesDj = new LinkedList<DataTuple>();
+		DataTuple[] dj = null;
+		
+		for(int i = 0; i < dataSet.length; i++){
+			if(DataConverter.convertDataTuple(attribute, dataSet[i]).equals(valueAj)){
+				tuplesDj.add(dataSet[i]);
+			}
+		}
+		
+		if(tuplesDj.size() == 0){
+			
+		}else{
+			
+			dj = new DataTuple[tuplesDj.size()];
+			for(int j = 0; j < dj.length; j++){
+				dj[j] = tuplesDj.removeFirst();
+			}			
+		}
+		
+		return dj;
+	}
+
+	/**
+	 * Recieves all the values in attribute specified in attribute.
+	 * @param attribute
+	 * @param dataSet, the whole data set from the recording.
+	 * @return
+	 */
+	private String[] allValuesInAttribute(String attribute, DataTuple[] dataSet) {
+		String[] valuesInAttribute = null;
+		Hashtable<String, String> values = new Hashtable<String, String>();
+		for(int i = 0; i < dataSet.length; i++){
+			values.put(DataConverter.convertDataTuple(attribute, dataSet[i]), "");
+		}
+		
+		valuesInAttribute = new String[values.size()];
+		int index = 0;
+		for(String key: values.keySet()){
+			valuesInAttribute[index] = key;
+			index++;
+		}
+		
+		return valuesInAttribute;
+	}
+
+	/**
+	 * Removes the attrubute i first parameter from the attribute list in the second parameter
+	 * @param attribute
+	 * @param attributeList2
+	 * @return the attrubute list without the attrubute specified in the first parameter.
+	 */
+	private String[] attributeListMinus(String attribute, String[] attributeList) {
+		
+		String[] reducedAttributeList = new String[attributeList.length - 1];
+		int ri = 0; 
+		for(int i = 0; i < attributeList.length; i++){
+			if(!attributeList[i].equals(attribute)){
+				reducedAttributeList[ri] = attributeList[i];
+				ri++;
+			}
+		}
 		
 		return null;
 	}
