@@ -14,15 +14,18 @@ public class ID3AttributeSelection {
 
     public static String getNextAttribute(DataTuple[] data, String[] attributes){
         //Calculate Info(D)
+
         double infoD = infoD(data);
+        HashMap<String,Double> infoA = new HashMap<>();
 
         for(int i = 0; i < attributes.length; i++){
-
+            
         }
+
         //For every A, calculate InfoA(D)
     }
 
-    private static double InfoAD(DataTuple[] data, DataTuple[] subset, double infoD){
+    private static double InfoAD(DataTuple[] data, LinkedList<LinkedList<DataTuple>> subset, double infoD){
 
     }
 
@@ -63,9 +66,9 @@ public class ID3AttributeSelection {
         return (Math.log(n) / Math.log(2));
     }
 
-    private static ArrayList<LinkedList<DataTuple>> extractSubsets(DataTuple[] data, String attribute){
+    private static LinkedList<LinkedList<DataTuple>> extractSubsets(DataTuple[] data, String attribute){
 
-        ArrayList<LinkedList<DataTuple>> rList = new ArrayList<>();
+        LinkedList<LinkedList<DataTuple>> rList = new LinkedList<>();
 
         LinkedList<String> values = new LinkedList<>();
 
