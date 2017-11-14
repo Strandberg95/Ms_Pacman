@@ -79,7 +79,7 @@ public class Executor
 		
 		//run game for data collection
 		//exec.runGameTimed(new DataCollectorController(new KeyBoardInput()),new StarterGhosts(),visual);
-		exec.runGameTimed(new DataCollectorController(new KeyBoardInput()),new StarterGhosts(),visual);
+		//exec.runGameTimed(new DataCollectorController(new KeyBoardInput()),new StarterGhosts(),visual);
 		
 		// run game with professional developers super AI-controller
 		AIController proAIController = new AIController();

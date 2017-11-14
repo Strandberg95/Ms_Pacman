@@ -10,16 +10,20 @@ public class ID3AttributeSelection {
     private static final String CLASS = "DirectionChosen";
 
     public static String getNextAttribute(DataTuple[] data, String[] attributes){
-        //Calculate Info(D)
 
-        double infoD = infoD(data);
         HashMap<String,Double> gainA = new HashMap<>();
         String nextAttribute = "";
+
+        double infoD = infoD(data);
 
         for(int i = 0; i < attributes.length; i++){
             LinkedList<LinkedList<DataTuple>> subset = extractSubsets(data,attributes[i]);
             double currInf = infoAD(data,subset);
             double currGain = (infoD - currInf);
+
+            System.out.println("Info: " + infoD);
+            System.out.println("Gain for " + attributes[i] + " : " + currGain);
+
             gainA.put(attributes[i],currGain);
         }
 
@@ -30,26 +34,31 @@ public class ID3AttributeSelection {
             Map.Entry pair = (Map.Entry)it.next();
             double value = (double)pair.getValue();
 
+
             if(value > highestValue){
                 highestValue = value;
                 nextAttribute = (String)pair.getKey();
+                System.out.println("New attribute: " + nextAttribute);
             }
 
             it.remove(); // avoids a ConcurrentModificationException
         }
         return nextAttribute;
 
-        //For every A, calculate InfoA(D)
     }
 
     private static double infoAD(DataTuple[] data, LinkedList<LinkedList<DataTuple>> subset){
         double info = 0;
         int D = data.length;
         for(int i = 0; i < subset.size(); i++){
+
             LinkedList<DataTuple> list = subset.get(i);
-            info += (list.size() / D) * infoD(list.toArray(new DataTuple[0]));
+
+            double infoDj = infoD(list.toArray(new DataTuple[0]));
+
+            info += ((double)(list.size() / (double)D) * infoDj);
         }
-        return D;
+        return info;
     }
 
     private static double infoD(DataTuple[] data){
@@ -78,10 +87,11 @@ public class ID3AttributeSelection {
 
             int value = (int)pair.getValue();
 
-            gain += (-(value/amount)*log2(value/amount));
+            gain += (-((double)value/(double)amount)*log2((double)value/(double)amount));
 
             it.remove(); // avoids a ConcurrentModificationException
         }
+
         return gain;
     }
 
@@ -90,49 +100,30 @@ public class ID3AttributeSelection {
     }
 
     private static LinkedList<LinkedList<DataTuple>> extractSubsets(DataTuple[] data, String attribute){
-
         LinkedList<LinkedList<DataTuple>> rList = new LinkedList<>();
 
-        LinkedList<String> values = new LinkedList<>();
+        String[] values = extractValueVariety(data,attribute);
 
-        for(int i = 0; i < data.length; i++){
-
-            String s = DataConverter.convertDataTuple(attribute,data[i]);
-
-            if(!values.contains(s)){
-                values.add(s);
-            }
-        }
-
-        for(int i = 0; i < values.size(); i++){
-
+        for(int i = 0; i < values.length; i++){
             LinkedList<DataTuple> list = new LinkedList<>();
-
             for(int j = 0; j < data.length; j++){
-
-                String s = DataConverter.convertDataTuple(attribute,data[i]);
-
-                if(values.get(i).equals(s)){
-                    list.add(data[i]);
+                if(values[i].equals(DataConverter.convertDataTuple(attribute,data[j]))){
+                    list.add(data[j]);
                 }
             }
             rList.add(list);
         }
-
         return rList;
     }
 
-
-    /*
-    private static String calculateAttribute(DataTuple[] data, String[] attributes, double gain, double average){
-        for(int i = 0; i < attributes.length; i++){
-            average += calculateClassGain(data,attributes[i]);
+    private static String[] extractValueVariety(DataTuple[] data, String attribute){
+        LinkedList<String> rList = new LinkedList<>();
+        for(int i = 0; i < data.length; i++){
+            String s = DataConverter.convertDataTuple(attribute,data[i]);
+            if(!rList.contains(s)){
+                rList.add(s);
+            }
         }
-
+        return rList.toArray(new String[0]);
     }
-
-
-
-
-*/
 }
