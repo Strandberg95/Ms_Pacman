@@ -48,7 +48,20 @@ public class AIBuilder {
 			String[] valuesInAttribute = allValuesInAttribute(attribute, dataSet);
 			for(int a = 0; a < valuesInAttribute.length; a++){
 				String valueAj = valuesInAttribute[a];
+				
+				// Creates a subset of D so that attribute A takes the value aj, creating the subset dj
 				DataTuple[] subSetDj = createSubSet(dataSet, attribute, valueAj);
+				
+				// If Dj is empty, add a child node to N labeled with the majority class in D
+				if(subSetDj.length == 0){
+					Node childNode = new Node();
+					String direction = majorityClass(dataSet);
+					childNode.setName(direction);
+					childNode.setMove(DataConverter.convertStringToMOVE(direction));
+					node.addNode(valueAj, childNode);
+				}else{
+					generate_tree(subSetDj, reducedAttributeList);
+				}
 			}
 		}
 		
@@ -66,7 +79,7 @@ public class AIBuilder {
 	 */
 	private DataTuple[] createSubSet(DataTuple[] dataSet, String attribute, String valueAj) {
 		LinkedList<DataTuple> tuplesDj = new LinkedList<DataTuple>();
-		DataTuple[] dj = null;
+		DataTuple[] dj = new DataTuple[0];
 		
 		for(int i = 0; i < dataSet.length; i++){
 			if(DataConverter.convertDataTuple(attribute, dataSet[i]).equals(valueAj)){
@@ -127,7 +140,7 @@ public class AIBuilder {
 			}
 		}
 		
-		return null;
+		return reducedAttributeList;
 	}
 
 	/**
