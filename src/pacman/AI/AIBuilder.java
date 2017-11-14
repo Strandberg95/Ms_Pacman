@@ -17,30 +17,50 @@ public class AIBuilder {
 	// Initialize attribute list
 	String[] attributeList = DataNameExtractor.readExtractionList();
 	DataTuple[] dataSet = DataSaverLoader.LoadPacManData();
+	Node root;
+	
+	public AIBuilder(){
+		root = generate_tree();
+	}
+	
+	
+	private Node generate_tree(){
+		return generate_tree(dataSet, attributeList);
+	}
 	
 	/**
 	 * Generates the decision tree
 	 * @return
 	 */
-	public Node generate_tree(DataTuple[] dataSet, String[] attributeList){
+	private Node generate_tree(DataTuple[] dataSet, String[] attributeList){
 		
 		// Create node N
 		Node node = new Node();
 		
 		// If every tuple in the data set has the same class (C), return N as a leaf node labeled as C
 		if(everyTupleSameClass(dataSet)){
+			System.out.println("Step 1");
 			String direction = DataConverter.convertDataTuple("DirectionChosen", dataSet[0]);
 			node.setName(direction);
 			node.setMove(DataConverter.convertStringToMOVE(direction));
 			
 			// otherwise if the attribute list is empty, return N as a leaf node labeled as majority class in data set
 		}else if(attributeListEmpty(attributeList)){
+			System.out.println("Step 2");
 			String direction = majorityClass(dataSet);
 			node.setName(direction);
 			node.setMove(DataConverter.convertStringToMOVE(direction));
 			
 		}else{  // Label N as A and remove A from the attribute list
+			System.out.println("Step 3");
 			String attribute = ID3AttributeSelection.getNextAttribute(dataSet, attributeList);
+			System.out.println("Label N.." + attribute);
+			if(attribute.equals(null)){
+				System.out.println("attribute is null");
+			}
+			if(attribute.equals("")){
+				System.out.println("attribute is tom. Kolla här ");
+			}
 			node.setName(attribute);
 			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
@@ -135,6 +155,7 @@ public class AIBuilder {
 		int ri = 0; 
 		for(int i = 0; i < attributeList.length; i++){
 			if(!attributeList[i].equals(attribute)){
+				System.out.println("attribute = " + attribute + " , attributeList[" + i + "]" + attributeList[i]);
 				reducedAttributeList[ri] = attributeList[i];
 				ri++;
 			}
