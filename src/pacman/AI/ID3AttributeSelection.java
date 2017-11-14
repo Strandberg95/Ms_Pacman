@@ -1,10 +1,7 @@
 package pacman.AI;
 
-import com.sun.jdi.connect.spi.TransportService;
 import dataRecording.DataTuple;
 import pacman.AI.DataExtraction.DataConverter;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ID3AttributeSelection {
@@ -16,17 +13,43 @@ public class ID3AttributeSelection {
         //Calculate Info(D)
 
         double infoD = infoD(data);
-        HashMap<String,Double> infoA = new HashMap<>();
+        HashMap<String,Double> gainA = new HashMap<>();
+        String nextAttribute = "";
 
         for(int i = 0; i < attributes.length; i++){
-            
+            LinkedList<LinkedList<DataTuple>> subset = extractSubsets(data,attributes[i]);
+            double currInf = infoAD(data,subset);
+            double currGain = (infoD - currInf);
+            gainA.put(attributes[i],currGain);
         }
+
+        Iterator it = gainA.entrySet().iterator();
+        while (it.hasNext()) {
+            double highestValue = Double.MIN_VALUE;
+
+            Map.Entry pair = (Map.Entry)it.next();
+            double value = (double)pair.getValue();
+
+            if(value > highestValue){
+                highestValue = value;
+                nextAttribute = (String)pair.getKey();
+            }
+
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+        return nextAttribute;
 
         //For every A, calculate InfoA(D)
     }
 
-    private static double InfoAD(DataTuple[] data, LinkedList<LinkedList<DataTuple>> subset, double infoD){
-
+    private static double infoAD(DataTuple[] data, LinkedList<LinkedList<DataTuple>> subset){
+        double info = 0;
+        int D = data.length;
+        for(int i = 0; i < subset.size(); i++){
+            LinkedList<DataTuple> list = subset.get(i);
+            info += (list.size() / D) * infoD(list.toArray(new DataTuple[0]));
+        }
+        return D;
     }
 
     private static double infoD(DataTuple[] data){
