@@ -20,7 +20,7 @@ public class DataConverter {
             case("pacmanPosition"):
                 rString = tuple.pacmanPosition + "";
                 break;
-            case("pacmanLives"):
+            case("pacmanLivesLeft"):
                 rString = tuple.pacmanLivesLeft + "";
                 break;
             case("currentScore"):

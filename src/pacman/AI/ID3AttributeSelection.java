@@ -21,8 +21,9 @@ public class ID3AttributeSelection {
             double currInf = infoAD(data,subset);
             double currGain = (infoD - currInf);
 
-            //System.out.println("Info: " + infoD + " currInf: " + currInf);
-            //System.out.println("Gain for " + attributes[i] + " : " + currGain);
+            System.out.println("Info: " + infoD + " currInf: " + currInf);
+            System.out.println("Gain for " + attributes[i] + " : " + currGain);
+            System.out.println();
 
             gainA.put(attributes[i],currGain);
         }
@@ -36,7 +37,7 @@ public class ID3AttributeSelection {
             Map.Entry pair = (Map.Entry)it.next();
             double value = (double)pair.getValue();
 
-            System.out.println("Key: " + pair.getKey() + " | value: " + pair.getValue());
+           // System.out.println("Key: " + pair.getKey() + " | value: " + pair.getValue());
 
             if(value > highestValue){
                 highestValue = value;
@@ -59,7 +60,7 @@ public class ID3AttributeSelection {
 
             double infoDj = infoD(list.toArray(new DataTuple[0]));
 
-            info += ((double)(list.size() / (double)D) * infoDj);
+            info += (((double)list.size() / (double)D) * infoDj);
         }
         return info;
     }
@@ -67,7 +68,7 @@ public class ID3AttributeSelection {
     private static double infoD(DataTuple[] data){
         HashMap<String,Integer> map = new HashMap<>();
 
-        int amount = 0;
+        double amount = 0;
         double gain = 0;
 
         for(int i = 0; i < data.length; i++){
@@ -88,7 +89,7 @@ public class ID3AttributeSelection {
 
             Map.Entry pair = (Map.Entry)it.next();
 
-            int value = (int)pair.getValue();
+            double value = (Integer)pair.getValue();
 
             gain += (-((double)value/(double)amount)*log2((double)value/(double)amount));
 
