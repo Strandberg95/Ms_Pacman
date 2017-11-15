@@ -21,24 +21,27 @@ public class ID3AttributeSelection {
             double currInf = infoAD(data,subset);
             double currGain = (infoD - currInf);
 
-            System.out.println("Info: " + infoD);
-            System.out.println("Gain for " + attributes[i] + " : " + currGain);
+            //System.out.println("Info: " + infoD + " currInf: " + currInf);
+            //System.out.println("Gain for " + attributes[i] + " : " + currGain);
 
             gainA.put(attributes[i],currGain);
         }
 
         Iterator it = gainA.entrySet().iterator();
+
+        double highestValue = -1.0d;
+
         while (it.hasNext()) {
-            double highestValue = Double.MIN_VALUE;
 
             Map.Entry pair = (Map.Entry)it.next();
             double value = (double)pair.getValue();
 
+            System.out.println("Key: " + pair.getKey() + " | value: " + pair.getValue());
 
             if(value > highestValue){
                 highestValue = value;
                 nextAttribute = (String)pair.getKey();
-                System.out.println("New attribute: " + nextAttribute);
+                //System.out.println("New attribute: " + nextAttribute);
             }
 
             it.remove(); // avoids a ConcurrentModificationException
@@ -49,7 +52,7 @@ public class ID3AttributeSelection {
 
     private static double infoAD(DataTuple[] data, LinkedList<LinkedList<DataTuple>> subset){
         double info = 0;
-        int D = data.length;
+        double D = data.length;
         for(int i = 0; i < subset.size(); i++){
 
             LinkedList<DataTuple> list = subset.get(i);
