@@ -12,8 +12,14 @@ import pacman.game.Constants.MOVE;
 public class Node {
 	
 	private String attName;
-	private Hashtable<String, Node>  attValues = new Hashtable<String, Node>();
+	private Hashtable<String, Node>  attValues;
 	private MOVE move;
+
+	public Node(){
+		attName = null;
+		attValues = new Hashtable<String, Node>();
+		move = null;
+	}
 	
 	public String getAttName(){
 		return attName;
@@ -31,7 +37,11 @@ public class Node {
 	public void setName(String name){
 		attName = name;
 	}
-	
+
+
+	public MOVE getMove(){
+		return this.move;
+	}
 	/**
 	 * Assigns a MOVE to the node. Assumes the node is a leaf node.
 	 * @param move
@@ -46,6 +56,18 @@ public class Node {
 	 */
 	public Hashtable<String, Node> getLinks(){
 		return attValues;
+	}
+
+	public Node getLink(String value){
+		return attValues.get(value);
+	}
+
+	public boolean isLeaf(){
+		if(move != null){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }
