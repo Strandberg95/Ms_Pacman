@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class AIPrinter {
-
-    private TreeNode root;
     private Graph graph;
 
     private final String GRAPH_NAME = "DECISION TREE GRAPH";
@@ -32,6 +30,7 @@ public class AIPrinter {
     public AIPrinter(TreeNode root){
         graph = this.createSingleGraph(GRAPH_NAME,STYLESHEET);
         addNodes(graph,root);
+        System.out.println(root == null);
         addAttributesToNodes(graph);
         graph.display();
     }
@@ -51,19 +50,22 @@ public class AIPrinter {
     }
 
     private void addNodes(Graph graph, TreeNode node){
-        Hashtable<String,TreeNode> nodes = node.getLinks();
-        graph.addNode(node.getAttName());
+        System.out.println("Child size: " + node.getLinks().size());
+        if(!node.isLeaf()){
+            Hashtable<String,TreeNode> nodes = node.getLinks();
+            graph.addNode(node.getAttName());
 
-        Iterator it = nodes.entrySet().iterator();
+            Iterator it = nodes.entrySet().iterator();
 
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            addNodes(graph,(TreeNode)pair.getValue());
-            graph.addEdge((String)pair.getKey(),node.getAttName(),((TreeNode) pair.getValue()).getAttName());
-            it.remove(); // avoids a ConcurrentModificationException
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                addNodes(graph,(TreeNode)pair.getValue());
+                graph.addEdge((String)pair.getKey(),node.getAttName(),((TreeNode) pair.getValue()).getAttName());
+                it.remove(); // avoids a ConcurrentModificationException
+            }
         }
     }
-
+/*
     private void addEdges(TreeNode node){
         Hashtable<String,TreeNode> nodes = node.getLinks();
         graph.addNode(node.getAttName());
@@ -74,4 +76,5 @@ public class AIPrinter {
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
+    */
 }
