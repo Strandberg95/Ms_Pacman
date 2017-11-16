@@ -1,30 +1,27 @@
-package pacman.AI;
+package pacman.AI.DecisionTree;
 
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.Set;
 
 import dataRecording.DataSaverLoader;
 import dataRecording.DataTuple;
 import pacman.AI.DataExtraction.DataConverter;
 import pacman.AI.DataExtraction.DataNameExtractor;
-import pacman.game.Constants.MOVE;
 
 public class AIBuilder {
 	
 	// Initialize attribute list
 	String[] attributeList = DataNameExtractor.readExtractionList();
 	DataTuple[] dataSet = DataSaverLoader.LoadPacManData();
-	Node root;
+	TreeNode root;
 	
 	public AIBuilder(){
 		root = generate_tree();
 	}
 	
 	
-	private Node generate_tree(){
+	public TreeNode generate_tree(){
 		return generate_tree(dataSet, attributeList);
 	}
 	
@@ -32,24 +29,24 @@ public class AIBuilder {
 	 * Generates the decision tree
 	 * @return
 	 */
-	private Node generate_tree(DataTuple[] dataSet, String[] attributeList){
+	private TreeNode generate_tree(DataTuple[] dataSet, String[] attributeList){
 		
-		// Create node N
-		Node node = new Node();
+		// Create treeNode N
+		TreeNode treeNode = new TreeNode();
 		
-		// If every tuple in the data set has the same class (C), return N as a leaf node labeled as C
+		// If every tuple in the data set has the same class (C), return N as a leaf treeNode labeled as C
 		if(everyTupleSameClass(dataSet)){
 			System.out.println("Step 1");
 			String direction = DataConverter.convertDataTuple("DirectionChosen", dataSet[0]);
-			node.setName(direction);
-			node.setMove(DataConverter.convertStringToMOVE(direction));
+			treeNode.setName(direction);
+			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
-			// otherwise if the attribute list is empty, return N as a leaf node labeled as majority class in data set
+			// otherwise if the attribute list is empty, return N as a leaf treeNode labeled as majority class in data set
 		}else if(attributeListEmpty(attributeList)){
 			System.out.println("Step 2");
 			String direction = majorityClass(dataSet);
-			node.setName(direction);
-			node.setMove(DataConverter.convertStringToMOVE(direction));
+			treeNode.setName(direction);
+			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
 		}else{  // Label N as A and remove A from the attribute list
 			System.out.println("Step 3");
@@ -59,9 +56,9 @@ public class AIBuilder {
 				System.out.println("attribute is null");
 			}
 			if(attribute.equals("")){
-				System.out.println("attribute is tom. Kolla här ");
+				System.out.println("attribute is tom. Kolla hï¿½r ");
 			}
-			node.setName(attribute);
+			treeNode.setName(attribute);
 			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
 			// For each value aj in attribute A..
@@ -72,13 +69,13 @@ public class AIBuilder {
 				// Creates a subset of D so that attribute A takes the value aj, creating the subset dj
 				DataTuple[] subSetDj = createSubSet(dataSet, attribute, valueAj);
 				
-				// If Dj is empty, add a child node to N labeled with the majority class in D
+				// If Dj is empty, add a child treeNode to N labeled with the majority class in D
 				if(subSetDj.length == 0){
-					Node childNode = new Node();
+					TreeNode childTreeNode = new TreeNode();
 					String direction = majorityClass(dataSet);
-					childNode.setName(direction);
-					childNode.setMove(DataConverter.convertStringToMOVE(direction));
-					node.addNode(valueAj, childNode);
+					childTreeNode.setName(direction);
+					childTreeNode.setMove(DataConverter.convertStringToMOVE(direction));
+					treeNode.addNode(valueAj, childTreeNode);
 				}else{
 					generate_tree(subSetDj, reducedAttributeList);
 				}

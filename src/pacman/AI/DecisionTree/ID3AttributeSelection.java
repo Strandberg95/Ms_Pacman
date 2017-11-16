@@ -1,4 +1,4 @@
-package pacman.AI;
+package pacman.AI.DecisionTree;
 
 import dataRecording.DataTuple;
 import pacman.AI.DataExtraction.DataConverter;
@@ -28,9 +28,9 @@ public class ID3AttributeSelection {
             gainA.put(attributes[i],currGain);
         }
 
-        Iterator it = gainA.entrySet().iterator();
 
         double highestValue = -1.0d;
+        Iterator it = gainA.entrySet().iterator();
 
         while (it.hasNext()) {
 

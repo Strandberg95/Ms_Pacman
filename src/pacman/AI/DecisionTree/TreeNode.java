@@ -1,4 +1,4 @@
-package pacman.AI;
+package pacman.AI.DecisionTree;
 
 import java.util.Hashtable;
 
@@ -9,15 +9,15 @@ import pacman.game.Constants.MOVE;
  * @author KEJ
  *
  */
-public class Node {
+public class TreeNode {
 	
 	private String attName;
-	private Hashtable<String, Node>  attValues;
+	private Hashtable<String, TreeNode>  attValues;
 	private MOVE move;
 
-	public Node(){
+	public TreeNode(){
 		attName = null;
-		attValues = new Hashtable<String, Node>();
+		attValues = new Hashtable<String, TreeNode>();
 		move = null;
 	}
 	
@@ -26,12 +26,12 @@ public class Node {
 	}
 	
 	/**
-	 * Links a node to this node.
+	 * Links a treeNode to this treeNode.
 	 * @param value
-	 * @param node
+	 * @param treeNode
 	 */
-	public void addNode(String value, Node node){
-		attValues.put(value, node);
+	public void addNode(String value, TreeNode treeNode){
+		attValues.put(value, treeNode);
 	}
 	
 	public void setName(String name){
@@ -54,11 +54,11 @@ public class Node {
 	 * Returns the links to the child nodes.
 	 * @return
 	 */
-	public Hashtable<String, Node> getLinks(){
+	public Hashtable<String, TreeNode> getLinks(){
 		return attValues;
 	}
 
-	public Node getLink(String value){
+	public TreeNode getLink(String value){
 		return attValues.get(value);
 	}
 

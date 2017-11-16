@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
 
-import dataRecording.DataCollectorController;
-import pacman.AI.AIBuilder;
 import pacman.AI.AIController;
+import pacman.AI.AIPrinter;
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
-import pacman.controllers.KeyBoardInput;
-import pacman.controllers.examples.StarterGhosts;
 import pacman.game.Game;
 import pacman.game.GameView;
 
@@ -84,7 +81,8 @@ public class Executor
 		// run game with professional developers super AI-controller
 		AIController proAIController = new AIController();
 		
-		exec.runGameTimed(proAIController, new StarterGhosts(), visual);
+		//exec.runGameTimed(proAIController, new StarterGhosts(), visual);
+
 	}
 	
     /**
