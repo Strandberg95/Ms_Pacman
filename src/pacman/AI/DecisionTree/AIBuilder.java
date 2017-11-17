@@ -16,12 +16,13 @@ public class AIBuilder {
 	DataTuple[] dataSet = DataSaverLoader.LoadPacManData();
 	TreeNode root;
 	
-	public AIBuilder(){
-		root = generate_tree();
-	}
+//	public AIBuilder(){
+//		root = generate_tree();
+//	}
 	
 	
 	public TreeNode generate_tree(){
+		
 		return generate_tree(dataSet, attributeList);
 	}
 	
@@ -30,38 +31,41 @@ public class AIBuilder {
 	 * @return
 	 */
 	private TreeNode generate_tree(DataTuple[] dataSet, String[] attributeList){
+//		System.out.println("Enter generate_tree");
 		
 		// Create treeNode N
 		TreeNode treeNode = new TreeNode();
 		
 		// If every tuple in the data set has the same class (C), return N as a leaf treeNode labeled as C
 		if(everyTupleSameClass(dataSet)){
-			System.out.println("Step 1");
 			String direction = DataConverter.convertDataTuple("DirectionChosen", dataSet[0]);
+//			System.out.println("Every tuple in data set has class; " + direction);
 			treeNode.setName(direction);
 			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
 			// otherwise if the attribute list is empty, return N as a leaf treeNode labeled as majority class in data set
 		}else if(attributeListEmpty(attributeList)){
-			System.out.println("Step 2");
 			String direction = majorityClass(dataSet);
+//			System.out.println("Attribute list is empty, node labeled as: " + direction);
 			treeNode.setName(direction);
 			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
 		}else{  // Label N as A and remove A from the attribute list
-			System.out.println("Step 3");
+//			System.out.println("Label N as A...");
 			String attribute = ID3AttributeSelection.getNextAttribute(dataSet, attributeList);
-			System.out.println("Label N.." + attribute);
+//			System.out.println("attrubute = " + attribute);
+//			System.out.println("Label N.." + attribute);
 			if(attribute.equals(null)){
-				System.out.println("attribute is null");
+//				System.out.println("attribute is null");
 			}
 			if(attribute.equals("")){
-				System.out.println("attribute is tom. Kolla h�r ");
+//				System.out.println("attribute is tom. Kolla h�r ");
 			}
 			treeNode.setName(attribute);
 			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
 			// For each value aj in attribute A..
+//			System.out.println("For each value aj in attribute A...");
 			String[] valuesInAttribute = allValuesInAttribute(attribute, dataSet);
 			for(int a = 0; a < valuesInAttribute.length; a++){
 				String valueAj = valuesInAttribute[a];
@@ -77,14 +81,12 @@ public class AIBuilder {
 					childTreeNode.setMove(DataConverter.convertStringToMOVE(direction));
 					treeNode.addNode(valueAj, childTreeNode);
 				}else{
-					generate_tree(subSetDj, reducedAttributeList);
+					treeNode.addNode(valueAj, generate_tree(subSetDj, reducedAttributeList));
+					;
 				}
 			}
 		}
-		
-		
-		
-		return null;
+		return treeNode;
 	}
 
 	/**
@@ -152,7 +154,7 @@ public class AIBuilder {
 		int ri = 0; 
 		for(int i = 0; i < attributeList.length; i++){
 			if(!attributeList[i].equals(attribute)){
-				System.out.println("attribute = " + attribute + " , attributeList[" + i + "]" + attributeList[i]);
+//				System.out.println("attribute = " + attribute + " , attributeList[" + i + "]" + attributeList[i]);
 				reducedAttributeList[ri] = attributeList[i];
 				ri++;
 			}
