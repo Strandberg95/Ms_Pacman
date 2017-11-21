@@ -3,6 +3,7 @@ package pacman.AI.DecisionTree;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Set;
 
 import dataRecording.DataSaverLoader;
 import dataRecording.DataTuple;
@@ -22,10 +23,27 @@ public class AIBuilder {
 	
 	
 	public TreeNode generate_tree(){
-		
-		return generate_tree(dataSet, attributeList);
+		root = generate_tree(dataSet, attributeList);
+		System.out.println("Tree");
+		printTree(root, "");
+		return root;
 	}
 	
+	private void printTree(TreeNode node, String indent) {
+		System.out.println(indent + "    " + "Node. Attribute = " + node.getAttName());
+		
+		if(!node.isLeaf()){
+			Hashtable<String, TreeNode> values = node.getLinks();
+			String indentedMore = indent + "        ";
+			for(String key: values.keySet()){
+				System.out.println(indentedMore + "Link. Value = " + key);
+				printTree(values.get(key), indentedMore);
+			}			
+		}else{
+			System.out.println(indent + "    " + "MOVE = " + node.getMove());
+		}
+	}
+
 	/**
 	 * Generates the decision tree
 	 * @return
@@ -55,12 +73,6 @@ public class AIBuilder {
 			String attribute = ID3AttributeSelection.getNextAttribute(dataSet, attributeList);
 //			System.out.println("attrubute = " + attribute);
 //			System.out.println("Label N.." + attribute);
-			if(attribute.equals(null)){
-//				System.out.println("attribute is null");
-			}
-			if(attribute.equals("")){
-//				System.out.println("attribute is tom. Kolla h�r ");
-			}
 			treeNode.setName(attribute);
 			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
@@ -82,7 +94,6 @@ public class AIBuilder {
 					treeNode.addNode(valueAj, childTreeNode);
 				}else{
 					treeNode.addNode(valueAj, generate_tree(subSetDj, reducedAttributeList));
-					;
 				}
 			}
 		}
