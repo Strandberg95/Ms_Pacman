@@ -65,21 +65,6 @@ public class AIBuilder {
 			}
 		}
 		
-		//Debug
-//		System.out.println("fullDataSet.length = " + fullDataSet.length);
-//		for(int j = 0; j < fullDataSet.length; j++){
-//			System.out.println(fullDataSet[j].getSaveString());
-//		}
-//		System.out.println("\ntrainingData.length = " + trainingData.length);
-//		for(int j = 0; j < trainingData.length; j++){
-//			System.out.println(trainingData[j].getSaveString());
-//		}
-//		System.out.println("\ntestData.length = " + testData.length);
-//		for(int j = 0; j < testData.length; j++){
-//			System.out.println(testData[j].getSaveString());
-//		}
-		//End debug
-		
 		// Create tree from the training data set
 		TreeNode rootTraining = generate_tree(trainingData, attributeList);
 	
