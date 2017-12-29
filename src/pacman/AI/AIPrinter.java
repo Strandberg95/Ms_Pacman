@@ -32,7 +32,7 @@ public class AIPrinter {
         addNodes(graph,root);
         System.out.println(root == null);
         addAttributesToNodes(graph);
-        graph.display();
+//        graph.display();
     }
 
     private Graph createSingleGraph(String name, String styleSheet){
@@ -50,7 +50,7 @@ public class AIPrinter {
     }
 
     private void addNodes(Graph graph, TreeNode node){
-        System.out.println("Child size: " + node.getLinks().size());
+//        System.out.println("Child size: " + node.getLinks().size());
         if(!node.isLeaf()){
             Hashtable<String,TreeNode> nodes = node.getLinks();
             graph.addNode(node.getAttName());

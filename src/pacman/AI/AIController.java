@@ -25,14 +25,12 @@ public class AIController extends Controller<Constants.MOVE> {
     }
 
     private Constants.MOVE getMove(TreeNode treeNode, DataTuple data){
-        System.out.println("Recursion");
-
+     
         if(treeNode.isLeaf()){
             System.out.println("Selected Move: " + treeNode.getMove().name() + "");
             return treeNode.getMove();
         }else{
             TreeNode link = treeNode.getLink(DataConverter.convertDataTuple(treeNode.getAttName(),data));
-            
             return getMove(link,data);
         }
     }

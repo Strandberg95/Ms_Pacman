@@ -21,9 +21,9 @@ public class ID3AttributeSelection {
             double currInf = infoAD(data,subset);
             double currGain = (infoD - currInf);
 
-            System.out.println("Info: " + infoD + " currInf: " + currInf);
-            System.out.println("Gain for " + attributes[i] + " : " + currGain);
-            System.out.println();
+//            System.out.println("Info: " + infoD + " currInf: " + currInf);
+//            System.out.println("Gain for " + attributes[i] + " : " + currGain);
+//            System.out.println();
 
             gainA.put(attributes[i],currGain);
         }

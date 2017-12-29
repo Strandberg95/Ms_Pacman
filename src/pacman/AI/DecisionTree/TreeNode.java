@@ -58,6 +58,11 @@ public class TreeNode {
 		return attValues;
 	}
 
+	/**
+	 * Get and return the tree node which has the link passed as parameter.
+	 * @param value, is the value of the attribute which leads to the next tree node.
+	 * @return
+	 */
 	public TreeNode getLink(String value){
 		return attValues.get(value);
 	}
