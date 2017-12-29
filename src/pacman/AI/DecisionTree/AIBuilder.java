@@ -9,7 +9,14 @@ import dataRecording.DataSaverLoader;
 import dataRecording.DataTuple;
 import pacman.AI.DataExtraction.DataConverter;
 import pacman.AI.DataExtraction.DataNameExtractor;
+import pacman.game.Constants;
+import pacman.game.Constants.MOVE;
 
+/**
+ * Managing the build of the classification tree
+ * @author KEJ
+ *
+ */
 public class AIBuilder {
 	
 	// Initialize attribute list
@@ -17,18 +24,116 @@ public class AIBuilder {
 	DataTuple[] dataSet = DataSaverLoader.LoadPacManData();
 	TreeNode root;
 	
-//	public AIBuilder(){
-//		root = generate_tree();
-//	}
-	
-	
+	/**
+	 * Entry method for creating the classification tree
+	 * @return the root of the classification tree
+	 */
 	public TreeNode generate_tree(){
 		root = generate_tree(dataSet, attributeList);
 		System.out.println("Tree");
 		printTree(root, "");
+		calculateAndPrintAccuracy(dataSet);
 		return root;
 	}
 	
+	/**
+	 * Calculates and print the accuracy of the data set classifier combination
+	 * Accuracyn is calculated using a holdout method.
+	 * @param fullDataSet
+	 */
+	private void calculateAndPrintAccuracy(DataTuple[] fullDataSet) {
+		System.out.println("PrintAccuracy");
+		
+		// Split in training set and test set
+		int testDataLength = fullDataSet.length/3;
+		int trainingDataLength = fullDataSet.length - testDataLength;
+		DataTuple[] trainingData = new DataTuple[trainingDataLength];
+		int trainingDataNextPos = 0;
+		DataTuple[] testData = new DataTuple[testDataLength];
+		int testDataNextPos = 0;
+		
+		int counter = 1;
+		for(int i = 0; i < fullDataSet.length; i++ ){
+			if(counter < 3){
+				trainingData[trainingDataNextPos] = fullDataSet[i];
+				trainingDataNextPos++;
+				counter++;
+			}else{
+				counter = 1;
+				testData[testDataNextPos] = fullDataSet[i];
+				testDataNextPos++;
+			}
+		}
+		
+		//Debug
+//		System.out.println("fullDataSet.length = " + fullDataSet.length);
+//		for(int j = 0; j < fullDataSet.length; j++){
+//			System.out.println(fullDataSet[j].getSaveString());
+//		}
+//		System.out.println("\ntrainingData.length = " + trainingData.length);
+//		for(int j = 0; j < trainingData.length; j++){
+//			System.out.println(trainingData[j].getSaveString());
+//		}
+//		System.out.println("\ntestData.length = " + testData.length);
+//		for(int j = 0; j < testData.length; j++){
+//			System.out.println(testData[j].getSaveString());
+//		}
+		//End debug
+		
+		// Create tree from the training data set
+		TreeNode rootTraining = generate_tree(trainingData, attributeList);
+	
+		// Calculate the accuracy
+		float accurate = 0;
+		float inaccurate = 0;
+		int errorInTuple = 0;
+		
+		for(int i = 0; i < testData.length; i++){
+			Constants.MOVE testTupleMove = testData[i].DirectionChosen;
+			try{
+				Constants.MOVE classifiedMove = getMove(rootTraining, testData[i]);
+				if(testTupleMove == classifiedMove){
+					accurate++;
+				}else{
+					inaccurate++;
+				}
+			}catch (NullPointerException e){
+				errorInTuple++;
+			}
+			
+		}
+		
+		float accuracy = (accurate - inaccurate)/(accurate + inaccurate);
+		System.out.println("\n================= Statistics ===============");
+		System.out.println("Number of accurate classifications. = " + accurate);
+		System.out.println("Number of inacurate classifications  = " + inaccurate);
+		System.out.println("Nuber of tuples containing values not known in training data = " + errorInTuple);
+		System.out.println("Accuracy = " + accuracy);
+	}
+	
+	/**
+	 * Via the classification tree, gets the move from the data tuple, i.e. how the tuple is classified
+	 * by the classification tree.
+	 * @param rootTraining
+	 * @param dataTuple
+	 * @return
+	 */
+	private MOVE getMove(TreeNode treeNode, DataTuple dataTuple) {
+        if(treeNode.isLeaf()){
+            return treeNode.getMove();
+        }else{
+            TreeNode link = treeNode.getLink(DataConverter.convertDataTuple(treeNode.getAttName(),dataTuple));
+            
+            return getMove(link,dataTuple);
+        }
+
+	}
+
+	/**
+	 * Prints the newly created classification tree
+	 * @param node, the current tree node
+	 * @param indent, current indent for the tree nodes "level". Used for creating the visible structure
+	 */
 	private void printTree(TreeNode node, String indent) {
 		System.out.println(indent + "    " + "Node. Attribute = " + node.getAttName());
 		
@@ -46,10 +151,9 @@ public class AIBuilder {
 
 	/**
 	 * Generates the decision tree
-	 * @return
+	 * @return a TreeNode.
 	 */
 	private TreeNode generate_tree(DataTuple[] dataSet, String[] attributeList){
-//		System.out.println("Enter generate_tree");
 		
 		// Create treeNode N
 		TreeNode treeNode = new TreeNode();
@@ -57,27 +161,21 @@ public class AIBuilder {
 		// If every tuple in the data set has the same class (C), return N as a leaf treeNode labeled as C
 		if(everyTupleSameClass(dataSet)){
 			String direction = DataConverter.convertDataTuple("DirectionChosen", dataSet[0]);
-//			System.out.println("Every tuple in data set has class; " + direction);
 			treeNode.setName(direction);
 			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
 			// otherwise if the attribute list is empty, return N as a leaf treeNode labeled as majority class in data set
 		}else if(attributeListEmpty(attributeList)){
 			String direction = majorityClass(dataSet);
-//			System.out.println("Attribute list is empty, node labeled as: " + direction);
 			treeNode.setName(direction);
 			treeNode.setMove(DataConverter.convertStringToMOVE(direction));
 			
 		}else{  // Label N as A and remove A from the attribute list
-//			System.out.println("Label N as A...");
 			String attribute = ID3AttributeSelection.getNextAttribute(dataSet, attributeList);
-//			System.out.println("attrubute = " + attribute);
-//			System.out.println("Label N.." + attribute);
 			treeNode.setName(attribute);
 			String[] reducedAttributeList = attributeListMinus(attribute, attributeList);
 			
 			// For each value aj in attribute A..
-//			System.out.println("For each value aj in attribute A...");
 			String[] valuesInAttribute = allValuesInAttribute(attribute, dataSet);
 			for(int a = 0; a < valuesInAttribute.length; a++){
 				String valueAj = valuesInAttribute[a];
