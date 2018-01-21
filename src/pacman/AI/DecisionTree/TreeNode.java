@@ -1,6 +1,6 @@
 package pacman.AI.DecisionTree;
 
-import java.util.Hashtable;
+import java.util.*;
 
 import pacman.game.Constants.MOVE;
 
@@ -58,8 +58,25 @@ public class TreeNode {
 		return attValues;
 	}
 
+	/**
+	 * Get and return the tree node which has the link passed as parameter.
+	 * @param value, is the value of the attribute which leads to the next tree node.
+	 * @return
+	 */
 	public TreeNode getLink(String value){
-		return attValues.get(value);
+
+		if(attValues.get(value) == null){
+			Random generator = new Random();
+			Object[] values = attValues.values().toArray();
+			Object randomValue = values[generator.nextInt(values.length)];
+			return (TreeNode)randomValue;
+		}else{
+			return attValues.get(value);
+		}
+
+
+		//return attValues.get(value);
+
 	}
 
 	public boolean isLeaf(){

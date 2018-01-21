@@ -1,18 +1,18 @@
 DirectionChosen
 mazeIndex
-currentLevel *
-pacmanPosition
+currentLevel
+pacmanPosition *
 pacmanLivesLeft
 currentScore
 totalGameTime
-currentLevelTime
+currentLevelTime *
 numOfPillsLeft *
 numOfPowerPillsLeft
 isBlinkyEdible *
-isInkyEdible
-isPinkyEdible
-isSueEdible
-blinkyDist *
+isInkyEdible *
+isPinkyEdible *
+isSueEdible *
+blinkyDist 
 inkyDist
 pinkyDist
 sueDist
@@ -21,6 +21,6 @@ inkyDir
 pinkyDir
 sueDir
 numberOfNodesInLevel
-numberOfTotalPillsInLevel *
-numberOfTotalPowerPillsInLevel *
+numberOfTotalPillsInLevel 
+numberOfTotalPowerPillsInLevel 
 maximumDistance

@@ -1,13 +1,6 @@
 package pacman.AI;
 
-import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.DefaultGraph;
-import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.graphicGraph.GraphicGraph;
-import org.graphstream.ui.layout.HierarchicalLayout;
-import org.graphstream.ui.view.Viewer;
+
 import pacman.AI.DecisionTree.TreeNode;
 
 import java.util.Hashtable;
@@ -15,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class AIPrinter {
+    /*
     private Graph graph;
 
     private final String GRAPH_NAME = "DECISION TREE GRAPH";
@@ -32,7 +26,7 @@ public class AIPrinter {
         addNodes(graph,root);
         System.out.println(root == null);
         addAttributesToNodes(graph);
-        graph.display();
+//        graph.display();
     }
 
     private Graph createSingleGraph(String name, String styleSheet){
@@ -50,7 +44,7 @@ public class AIPrinter {
     }
 
     private void addNodes(Graph graph, TreeNode node){
-        System.out.println("Child size: " + node.getLinks().size());
+//        System.out.println("Child size: " + node.getLinks().size());
         if(!node.isLeaf()){
             Hashtable<String,TreeNode> nodes = node.getLinks();
             graph.addNode(node.getAttName());
@@ -76,5 +70,5 @@ public class AIPrinter {
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
-    */
+*/
 }

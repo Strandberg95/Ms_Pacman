@@ -10,13 +10,13 @@ import pacman.game.Game;
 
 public class AIController extends Controller<Constants.MOVE> {
     private AIBuilder aiBuilder;
-    private AIPrinter aiPrinter;
+    //private AIPrinter aiPrinter;
     private TreeNode root;
 
     public AIController(){
         aiBuilder = new AIBuilder();
         root = aiBuilder.generate_tree();
-        aiPrinter = new AIPrinter(root);
+        //aiPrinter = new AIPrinter(root);
     }
 
     @Override
@@ -25,14 +25,12 @@ public class AIController extends Controller<Constants.MOVE> {
     }
 
     private Constants.MOVE getMove(TreeNode treeNode, DataTuple data){
-        System.out.println("Recursion");
-
+     
         if(treeNode.isLeaf()){
             System.out.println("Selected Move: " + treeNode.getMove().name() + "");
             return treeNode.getMove();
         }else{
             TreeNode link = treeNode.getLink(DataConverter.convertDataTuple(treeNode.getAttName(),data));
-            
             return getMove(link,data);
         }
     }
